@@ -155,16 +155,34 @@
                 Temukan <span class="text-yellow-300">Beasiswa Impianmu</span> di Sini!
             </h1>
             <p class="text-lg mb-8 opacity-90">Akses ratusan peluang beasiswa dari seluruh dunia, gratis dan mudah!</p>
-            <form class="flex justify-center max-w-xl mx-auto">
-                <input type="text" placeholder="Cari beasiswa..." class="flex-1 px-6 py-3 rounded-l-full focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700" />
-                <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-r-full text-white font-bold transition">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+            <form class="flex justify-center max-w-xl mx-auto" method="GET" action="{{ route('scholarship.index') }}">
+            <input
+                type="text"
+                name="q"
+                value="{{ request('q') }}"
+                placeholder="Cari beasiswa..."
+                class="flex-1 px-6 py-3 rounded-l-full focus:outline-none focus:ring-2 focus:ring-yellow-300 text-gray-700"
+        />
+            <select
+                name="degree"
+                class="bg-white border-l border-gray-300 px-4 py-3 text-gray-700"
+            >
+                <option value="">Semua Jenjang</option>
+                <option value="S1" {{ request('degree') === 'S1' ? 'selected' : '' }}>S1</option>
+                <option value="S2" {{ request('degree') === 'S2' ? 'selected' : '' }}>S2</option>
+                <option value="S3" {{ request('degree') === 'S3' ? 'selected' : '' }}>S3</option>
+            </select>
+            <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 px-6 py-3 rounded-r-full text-white font-bold transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+
         </div>
     </div>
 
+    
     {{-- Scholarship Cards --}}
+    
     <div class="max-w-7xl mx-auto px-4 py-10">
         <h2 class="text-2xl font-bold mb-6 text-left">
             <span class="text-pink-600">Info</span> <span class="text-indigo-600">Beasiswa Terbaru</span>

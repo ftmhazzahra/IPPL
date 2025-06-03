@@ -12,4 +12,4 @@ Route::get('/', function () {
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/scholarships', [ScholarshipController::class, 'index']);
 Route::get('/discussion', [DiscussionController::class, 'index']);
-
+Route::get('/scholarships', [ScholarshipController::class, 'index'])->name('scholarship.index');
