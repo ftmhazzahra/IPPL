@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Scholarship; // <<< TAMBAHKAN TITIK KOMA DI SINI
 use Illuminate\Http\Request;
 
 class ScholarshipController extends Controller
@@ -11,30 +12,29 @@ class ScholarshipController extends Controller
         $query = $request->input('q');
         $degree = $request->input('degree');
 
-        $scholarships = collect(range(1, 20))->map(function ($i) {
-            return [
-                'id' => $i,
-                'title' => "Beasiswa Contoh $i",
-                'country' => ['Indonesia', 'UK', 'USA', 'Australia'][$i % 4],
-                'description' => "Deskripsi singkat dari beasiswa ke-$i.",
-                'degrees' => collect(['S1'])
-                    ->merge($i % 2 === 0 ? ['S2'] : [])
-                    ->merge($i % 3 === 0 ? ['S3'] : [])
-                    ->all(),
-            ];
-        });
+        // Ini sudah benar: memulai query database
+        $scholarships = Scholarship::query();
 
+        // >>> PERBAIKI BAGIAN FILTERING INI <<<
+        // Gunakan metode 'where()' dari Eloquent untuk memfilter data dari database
         if ($query) {
-            $scholarships = $scholarships->filter(fn($item) =>
-                str_contains(strtolower($item['title']), strtolower($query))
-            );
+            $scholarships->where(function($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                  ->orWhere('description', 'like', '%' . $query . '%')
+                  ->orWhere('country', 'like', '%' . $query . '%');
+            });
         }
 
         if ($degree) {
-            $scholarships = $scholarships->filter(fn($item) =>
-                in_array($degree, $item['degrees'])
-            );
+            // Gunakan whereJsonContains untuk kolom JSON
+            $scholarships->whereJsonContains('degrees', $degree);
         }
+
+        // >>> TAMBAHKAN .get() SEBELUM dd() atau return view() <<<
+        // Ini akan menjalankan query ke database dan mengambil hasilnya
+        $scholarships = $scholarships->orderBy('title', 'asc')->get(); // Urutkan dan ambil semua hasil
+
+        // dd($scholarships); // Sekarang dd() akan menampilkan hasil dari database (50 data)
 
         return view('scholarship', [
             'scholarships' => $scholarships,

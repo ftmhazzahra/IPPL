@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Scholarship extends Model
 {
-    protected $table = 'scholarships';
+    use HasFactory;
 
     protected $fillable = [
         'title',
         'country',
-        'degree',
         'description',
+        'image_url',
+        'official_website_url', // <<< Tambahkan ini
+        'degrees',
+    ];
+
+    protected $casts = [
+        'degrees' => 'array',
     ];
 }

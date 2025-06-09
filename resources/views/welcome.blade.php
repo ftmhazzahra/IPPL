@@ -16,12 +16,22 @@
             Your Gateway to Global Scholarships<br>
             <span class="text-sm text-gray-400">Find Opportunities, Build Your Future</span>
         </p>
-        <form class="flex w-full max-w-md mb-4">
-            <input type="text" placeholder="Search scholarship..." class="flex-1 px-4 py-3 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-300">
+        
+
+        <form class="flex w-full max-w-md mb-4" method="GET" action="{{ route('scholarship.index') }}">
+            <input
+                type="text"
+                name="q" {{-- <<< TAMBAHKAN name="q" INI --}}
+                value="{{ request('q') }}" {{-- <<< Opsional: Menjaga nilai pencarian setelah redirect --}}
+                placeholder="Search scholarship..."
+                class="flex-1 px-4 py-3 rounded-l-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            >
             <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-r-full text-lg font-bold">
                 <i class="fas fa-search"></i>
             </button>
         </form>
+
+
         <a href="{{ url('/scholarships') }}" class="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-full shadow transition">
             Let's get started!
         </a>

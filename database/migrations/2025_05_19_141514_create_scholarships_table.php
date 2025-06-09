@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('scholarships', function (Blueprint $table) {
             $table->id();
-            $table->string('title');       // Judul beasiswa
-            $table->string('country');     // Negara tujuan
-            $table->string('degree');      // Jenjang (S1, S2, S3, dll.)
-            $table->text('description');   // Deskripsi beasiswa
-            $table->timestamps();          // created_at & updated_at
+            $table->string('title');        // Judul beasiswa
+            $table->string('country');      // Negara tujuan
+            $table->text('description')->nullable(); // Deskripsi beasiswa (ditambahkan nullable agar fleksibel)
+            $table->json('degrees')->nullable(); // Jenjang (S1, S2, S3, dll.) --> DIUBAH KE JSON
+            $table->timestamps();           // created_at & updated_at
         });
     }
-
 
     /**
      * Reverse the migrations.
